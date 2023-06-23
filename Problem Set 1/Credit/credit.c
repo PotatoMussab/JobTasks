@@ -1,41 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-char* isValidNum(char* cardNum){
-    char* result="INVALID\n";
-    if(cardNum[0]=='3' && (cardNum[1]=='7'||cardNum[1]=='4'))
-        result="AMEX\n";
-    else if(cardNum[0]=='4')
-        result="VISA\n";
-    else if(cardNum[0]=='5'){
-        for(char i='1';i<='5';i++){
-            if(cardNum[1]==i){
-                result="MASTERCARD\n";
-                break;
-            }
-        }
-    }
-    else return result;
-
-    int checkSum=0; //There is some integer overflow sometimes but that doesn't affect the performance
-    for(int i=0;i<16;i++){
-        int num=(int)cardNum[i]-48;
-        if(i%2==0){
-            int prod=num*2;
-            if(prod>=10)
-                checkSum+=prod%10 + 1;
-            else
-                checkSum+=prod;
-        }
-        else
-            checkSum+=num;
-    }
-    if(checkSum%10==0)
-        return result;
-    else
-        return "INVALID\n";
-}
-
+//THIS PROGRAM IS INCORRECT
+char* isValidNum(char* cardNum);
 int main(){
     int i;
     char cardNum[50];
@@ -62,4 +29,39 @@ int main(){
     else
         result=isValidNum(cardNum);
     printf(result);
+}
+
+char* isValidNum(char* cardNum){
+    char* result="INVALID\n";
+    if(cardNum[0]=='3' && (cardNum[1]=='7'||cardNum[1]=='4'))
+        result="AMEX\n";
+    else if(cardNum[0]=='4')
+        result="VISA\n";
+    else if(cardNum[0]=='5'){
+        for(char i='1';i<='5';i++){
+            if(cardNum[1]==i){
+                result="MASTERCARD\n";
+                break;
+            }
+        }
+    }
+    else return result;
+
+    int checkSum=0;
+    for(int i=0;i<16;i++){
+        int num=(int)cardNum[i]-48;
+        if(i%2==0){
+            int prod=num*2;
+            if(prod>=10)
+                checkSum+=prod%10 + 1;
+            else
+                checkSum+=prod;
+        }
+        else
+            checkSum+=num;
+    }
+    if(checkSum%10==0)
+        return result;
+    else
+        return "INVALID\n";
 }
